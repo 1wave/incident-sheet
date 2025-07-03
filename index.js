@@ -17,7 +17,7 @@ function getField(text, patterns) {
   for (const pattern of patterns) {
     const match = text.match(pattern);
     if (match && match[1]) {
-      return match[1].split("\n")[0].trim();
+      return match[1].trim();
     }
   }
   return "";
@@ -29,14 +29,15 @@ app.post("/incident", async (req, res) => {
 
     const incident = getField(data, [/IncidentNumber[:：]?\s*(.+)/i]);
     const branch = getField(data, [
-      /ชื่อสาขา\s*\/.*\/.*ชั้น[:\s]*(.+)/i,
+      /หน่วยงาน\s*\/.*\/.*ชั้น[:\s]*(.+)/i,
+      /ชื่อสาขา\s*[:\s]*(.+)/i,
       /ฝ่ายงาน\/สาขา[:\s]*(.+)/i,
       /สถานที่[:\s]*(.+)/i,
     ]);
     const error = getField(data, [
       /อาการเสีย\/Error message\s*[:：]\s*(.+)/i,
       /อาการ[:\s]*(.+)/i,
-      /ปัญหา\s*[:：]\s*(.*)/,
+      /ปัญหา\s*[:：]\s*(.*)/i,
     ]);
     console.log({ incident, branch, error });
 

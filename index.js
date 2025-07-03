@@ -11,7 +11,7 @@ const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
-const SPREADSHEET_ID = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+const SPREADSHEET_ID = "1JPlVsPeZNFfh2kVE7I4kI9LRDzngnmuejWxmKSXopFg";
 // Function เช็ค pattern Incident
 function getField(text, patterns) {
   for (const pattern of patterns) {
@@ -42,7 +42,9 @@ app.post("/incident", async (req, res) => {
 
     const client = await auth.getClient();
     const sheets = google.sheets({ version: "v4", auth: client });
-    const formatDate = new Date().toLocaleDateString("en-GB");
+    const formatDate =
+      new Date().toLocaleDateString("en-GB") +
+      new Date().toLocaleTimeString("th-TH", { timeZone: "Asia/Bangkok" });
 
     const response = await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
